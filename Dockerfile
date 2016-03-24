@@ -7,8 +7,7 @@ RUN apt-get update \
 		&& apt-get update \
 		&& mkdir ~/.ssh \
 		&& apt-get install -y docker-engine \
-		&& rm -rf /var/lib/apt/lists/* \
-		&& service docker start
+		&& rm -rf /var/lib/apt/lists/* 
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_SLAVE_AGENT_PORT 50000
@@ -53,7 +52,8 @@ RUN curl -fL http://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/$
   && echo "$JENKINS_SHA /usr/share/jenkins/jenkins.war" | sha1sum -c -
 
 ENV JENKINS_UC https://updates.jenkins-ci.org
-RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref
+RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref \
+	&& gpasswd -a jenkins docker 
 
 # for main web interface:
 EXPOSE 8080

@@ -1,5 +1,6 @@
 #! /bin/bash
 
+service docker start
 set -e
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
