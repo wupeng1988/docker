@@ -5,6 +5,7 @@ RUN apt-get update \
 		&& apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
 		&& echo deb https://apt.dockerproject.org/repo debian-jessie main > /etc/apt/sources.list.d/docker.list \ 
 		&& apt-get update \
+		&& mkdir ~/.ssh \
 		&& apt-get install -y docker-engine \
 		&& rm -rf /var/lib/apt/lists/* \
 		&& service docker start
@@ -65,6 +66,7 @@ ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 USER ${user}
 
 COPY jenkins.sh /usr/local/bin/jenkins.sh
+COPY id_rsa  $JENKINS_HOME/.ssh 
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 # from a derived Dockerfile, can use `RUN plugins.sh active.txt` to setup /usr/share/jenkins/ref/plugins from a support bundle
